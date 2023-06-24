@@ -1,7 +1,7 @@
 {
   "name": "mcbot",
   "version": "1.0.0",
-  "description": "A bot to manage enchantment books shop on a minecraft server",
+  "description": "A bot to manage enchantment books on a minecraft server",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,6 +13,8 @@
   "author": "symsym_",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^14.11.0"
+    "discord.js": "^14.11.0",
+    "sequelize": "^6.32.1",
+    "sqlite3": "^5.1.6"
   }
 }

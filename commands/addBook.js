@@ -24,7 +24,7 @@ module.exports = {
         ), // et le nombre de livres
     async autocomplete(interaction) { // l'autocomplétion
         const focusedValue = interaction.options.getFocused(); // on récupère ce que l'utilisateur a déjà tapé
-		const choices = ['Aqua Affinity', 'Bane of Arthropods', 'Blast Protection', 'Channeling', 'Curse of Binding', 'Curse of Vanishing', 'Depth Strider', 'Efficiency', 'Feather Falling', 'Fire Aspect', 'Fire Protection', 'Flame', 'Fortune', 'Frost Walker', 'Impaling', 'Infinity', 'Knockback', 'Looting', 'Loyalty', 'Luck of the Sea', 'Lure', 'Mending', 'Quick Charge', 'Piercing', 'Multishot', 'Power', 'Projectile Protection', 'Protection', 'Punch', 'Respiration', 'Riptide', 'Sharpness', 'Silk Touch', 'Smite', 'Soul Speed', 'Sweeping Edge', 'Thorns', 'Unbreaking']
+		const choices = ['aqua affinity', 'bane of arthropods', 'blast protection', 'channeling', 'curse of binding', 'curse of vanishing', 'depth strider', 'efficiency', 'feather falling', 'fire aspect', 'fire protection', 'flame', 'fortune', 'frost walker', 'impaling', 'infinity', 'knockback', 'looting', 'loyalty', 'luck of the sea', 'lure', 'mending', 'quick charge', 'piercing', 'multishot', 'power', 'projectile protection', 'protection', 'punch', 'respiration', 'riptide', 'sharpness', 'silk touch', 'smite', 'soul speed', 'sweeping edge', 'thorns', 'unbreaking']
 		// on définie tout les choix dispos
         const filtered = choices.filter(choice => choice.startsWith(focusedValue)); // on filtre les choix pour ne garder que ceux qui commencent par ce que l'utilisateur a tapé
 		await interaction.respond(
@@ -41,7 +41,11 @@ module.exports = {
         if (level < 1 || level > 5) { // si le niveau est pas entre 1 et 5 on renvoie une erreur
           return interaction.editReply({ content: `Le niveau doit être compris entre 1 et 5.`, ephemeral: true });
         }
-      
+        const choices = ['aqua affinity', 'bane of arthropods', 'blast protection', 'channeling', 'curse of binding', 'curse of vanishing', 'depth strider', 'efficiency', 'feather falling', 'fire aspect', 'fire protection', 'flame', 'fortune', 'frost walker', 'impaling', 'infinity', 'knockback', 'looting', 'loyalty', 'luck of the sea', 'lure', 'mending', 'quick charge', 'piercing', 'multishot', 'power', 'projectile protection', 'protection', 'punch', 'respiration', 'riptide', 'sharpness', 'silk touch', 'smite', 'soul speed', 'sweeping edge', 'thorns', 'unbreaking']
+        
+        if (!choices.includes(book.toLowerCase())) { // si le livre n'est pas dans la liste on renvoie une erreur
+            return interaction.editReply({ content: `Le livre ${book} n'existe pas.`, ephemeral: true });
+        }
         for (let i = 0; i < number; i++) { // pour chaque nombre on crée un livre dans la base de données
           await Book.create({
             name: book,

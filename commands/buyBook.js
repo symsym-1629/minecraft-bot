@@ -63,31 +63,29 @@ module.exports = {
             }
             await livre.update({ reserved: true });
             await Book.sync();
-            try {
+            
             // create in not exists or update user
-                const user = await User.findOrCreate({
-                    where: {
-                        username: username
-                    },
-                    defaults: {
-                        username: username,
-                        reserved: null
-                    }
-                });
-                await user[0].update({
-                    reserved: user[0].reserved ? user[0].reserved + ',' + livre.id : livre.id
-                });
-                await User.sync();
-            } catch (error) {
-                console.log(error);
-                return interaction.editReply({ content: `On a un problème.`, ephemeral: true });
-            }
+            const user = await User.findOrCreate({
+                where: {
+                    username: username
+                },
+                defaults: {
+                    username: username,
+                    reserved: null
+                }
+            });
+            await user[0].update({
+                reserved: user[0].reserved ? user[0].reserved + ',' + livre.id : livre.id
+            });
+            await User.sync();
+            
+            return interaction.editReply({ content: `Le livre ${book} de niveau ${level} appartenant à ${livre.username} a bien été réservé. ||id: ${livre.id}||`, ephemeral: true });
         } catch (error) {
             console.log(error);
             return interaction.editReply({ content: `Il n'y a plus de livres ${book} disponibles.`, ephemeral: true });
         };
         
         // on renvoie une réponse
-        return interaction.editReply({ content: `${level} livre(s) ${book} de niveau ${level} a/ont bien été ajouté(s) à votre liste.`, ephemeral: true });
+        
     },// transférer les livres séléctionnés sur une liste que l'on pourra récuperer via une commande
 }; 

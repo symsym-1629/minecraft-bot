@@ -21,7 +21,13 @@ module.exports = {
             .setName('number')
             .setDescription('Le nombre de livres à ajouter')
             .setRequired(true)
-        ), // et le nombre de livres
+        ) // et le nombre de livres
+        .addStringOption(option => option
+            .setName('username')
+            .setDescription('Your MC username')
+            .setRequired(true)
+            .setAutocomplete(false)
+        ),
     async autocomplete(interaction) { // l'autocomplétion
         const focusedValue = interaction.options.getFocused(); // on récupère ce que l'utilisateur a déjà tapé
 		const choices = ['aqua affinity', 'bane of arthropods', 'blast protection', 'channeling', 'curse of binding', 'curse of vanishing', 'depth strider', 'efficiency', 'feather falling', 'fire aspect', 'fire protection', 'flame', 'fortune', 'frost walker', 'impaling', 'infinity', 'knockback', 'looting', 'loyalty', 'luck of the sea', 'lure', 'mending', 'quick charge', 'piercing', 'multishot', 'power', 'projectile protection', 'protection', 'punch', 'respiration', 'riptide', 'sharpness', 'silk touch', 'smite', 'soul speed', 'sweeping edge', 'thorns', 'unbreaking']
@@ -37,6 +43,7 @@ module.exports = {
         const book = interaction.options.getString('book'); 
         const level = interaction.options.getInteger('level');
         const number = interaction.options.getInteger('number');
+        const username = interaction.options.getString('username');
       
         if (level < 1 || level > 5) { // si le niveau est pas entre 1 et 5 on renvoie une erreur
           return interaction.editReply({ content: `Le niveau doit être compris entre 1 et 5.`, ephemeral: true });
@@ -48,11 +55,11 @@ module.exports = {
         }
         for (let i = 0; i < number; i++) { // pour chaque nombre on crée un livre dans la base de données
           await Book.create({
-            name: book,
+            name: book.toLowerCase(),
             level: level,
-            userid: interaction.user.id,
+            username: username,
             reserved: false
-          });
+          }).then(Book.sync());
         }
         // on renvoie une réponse
         return interaction.editReply({ content: `${number} livre(s) ${book} de niveau ${level} a/ont bien été ajouté(s).`, ephemeral: true });

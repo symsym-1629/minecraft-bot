@@ -14,8 +14,8 @@ var Book = database.define('books', {
     level: {
         type: Sequelize.INTEGER,
     },
-    userid: {
-        type: Sequelize.BIGINT, // big integer
+    username: {
+        type: Sequelize.STRING, 
     },
     reserved: {
         type: Sequelize.BOOLEAN,
